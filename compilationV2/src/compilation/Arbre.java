@@ -28,25 +28,20 @@ public class Arbre {
 		e.printStackTrace();
 	}}
 	
-	/*public static String line;
+	public static String line;
 	
 	static { try {
 		line = br.readLine();
 	} catch (IOException e) {
 		// TODO Auto-generated catch block
 		e.printStackTrace();
-	}}*/
+	}}
 	
 	public static HashMap<String, Integer> codeCaractere;
 	
 	// initialisation du hashmap
 	static {
 		codeCaractere = new HashMap<String, Integer>();
-		/*codeCaractere.put("S", 1);
-		codeCaractere.put("N", 2);
-		codeCaractere.put("E", 3);
-		codeCaractere.put("T", 4);
-		codeCaractere.put("F", 5);*/
 		codeCaractere.put(";", 6);
 		codeCaractere.put(",", 7);
 		codeCaractere.put("-->", 8);
@@ -262,9 +257,10 @@ public class Arbre {
 	public static String chaine;
 	
 	public static void scan() throws IOException{
-		String line = lireBlanc();
+		
+		
 		while(i<line.length()){
-			
+			lireBlanc();
 			String a = line.charAt(i)+"";
 			switch (a) {
 			case "-":
@@ -273,10 +269,8 @@ public class Arbre {
 				type = AtomType.Terminal;
 				chaine = a;
 				i=i+3;
-				System.out.println("case - i="+i+a.toUpperCase());
-				
+				//System.out.println("case - i="+i+a.toUpperCase());
 				affiche();
-				//scan();
 				break;
 				
 			case "(" :
@@ -286,18 +280,16 @@ public class Arbre {
 					type = AtomType.Terminal;
 					chaine = a;
 					i=i+2;
-					System.out.println("case ( if i="+i);
+					//System.out.println("case ( if i="+i);
 					affiche();
-					//scan();
 				}
 				else{
 					code = codeCaractere.get(a);
 					type = AtomType.Terminal;
 					chaine = a;
 					i=i+1;
-					System.out.println("case ( else i="+i);
+					//System.out.println("case ( else i="+i);
 					affiche();
-					//scan();
 				}
 				break;
 				
@@ -308,37 +300,46 @@ public class Arbre {
 					type = AtomType.Terminal;
 					chaine = a;
 					i=i+2;
-					System.out.println("case / if i="+i);
+					//System.out.println("case / if i="+i);
 					affiche();
-					//scan();
 				}
 				else{
 					code = codeCaractere.get(a);
 					type = AtomType.Terminal;
 					chaine = a;
 					i=i+1;
-					System.out.println("case / else i="+i);
+					//System.out.println("case / else i="+i);
 					affiche();
-					//scan();
 				}
 				break;
 				
 			case "'":
 				a="";
 				while (!((line.charAt(i+1)+"").equals("'"))) {
-					a=a+line.charAt(i+1);
+					
+					// S'il arrive sur une guillemet, il passe au caractère suivant puis il enlève les blancs (s'il y en a)
 					i++;
-					System.out.println("case ' while i="+i);
-					//affiche();
-					//scan();
+					lireBlanc();
+					
+					// Comme on lit les blancs, on peut se retrouver malencontreusement sur une guillmet
+					// Dans ce cas il faut sortir du while
+					if((line.charAt(i)+"").equals("'")){
+						break;
+					}
+					// Dans le cas ou ce n'est pas une guillemet, alors on ajoute la caractère courant à "a"
+					else{
+						a=a+line.charAt(i);
+					}
+				
+					
 				}
+				
 				code = codeCaractere.get("ELTER");
 				type = AtomType.Terminal;
 				chaine = a;
-				i=i+2;
-				System.out.println("case ' i="+i);
+				lireBlanc();
+				i=i+1;
 				affiche();
-				//scan();
 				break;
 
 			default:
@@ -347,9 +348,8 @@ public class Arbre {
 					type = AtomType.Terminal;
 					chaine = a;
 					i++;
-					System.out.println("case default if i="+i);
+					//System.out.println("case default if i="+i);
 					affiche();
-					//scan();
 				}
 				else{
 					Pattern p = Pattern .compile("[a-zA-Z1-9]");
@@ -366,10 +366,8 @@ public class Arbre {
 					chaine = a;
 					code = codeCaractere.get("IDNTER");
 					type = AtomType.NonTerminal;
-					//i++;
-					System.out.println("case default else i="+i);
+					//System.out.println("case default else i="+i);
 					affiche();
-					//scan();
 				}
 				break;
 			}
@@ -378,20 +376,17 @@ public class Arbre {
 		
 	}
 	
-	public static String lireBlanc() throws IOException{
-		String sansBlanc="";
-		String line;
-		while ((line=br.readLine()) != null) {
-			
+	public static void lireBlanc() throws IOException{
+		while (line.charAt(i)==' ' && i<line.length()) {
+			//System.out.println("Attention il y a un blanc !!");
+			i++;
 		}
-		return sansBlanc;
 	}
 	
 	public static void affiche(){
 		//System.out.println("code = "+ code);
 		//System.out.println("type = "+ type);
-		System.out.println("chaine = "+ chaine);
-		System.out.println("_____________________");
+		System.out.print(chaine);
 	}
 	
 	public static Node genConc(Node p1, Node p2){
