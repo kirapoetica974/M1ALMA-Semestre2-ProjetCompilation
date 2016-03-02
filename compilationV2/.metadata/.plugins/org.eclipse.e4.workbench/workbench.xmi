@@ -3,7 +3,7 @@
   <persistedState key="memento" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xA;&lt;workbench>&#xA;&lt;mruList/>&#xA;&lt;/workbench>"/>
   <tags>activeSchemeId:org.eclipse.ui.defaultAcceleratorConfiguration</tags>
   <tags>ModelMigrationProcessor.001</tags>
-  <children xsi:type="basic:TrimmedWindow" xmi:id="_XqrcsNvOEeW4CoQ1djPn3w" elementId="IDEWindow" contributorURI="platform:/plugin/org.eclipse.platform" selectedElement="_YNkHUtvOEeW4CoQ1djPn3w" label="%trimmedwindow.label.eclipseSDK" x="21" y="57" width="1024" height="768">
+  <children xsi:type="basic:TrimmedWindow" xmi:id="_XqrcsNvOEeW4CoQ1djPn3w" elementId="IDEWindow" contributorURI="platform:/plugin/org.eclipse.platform" selectedElement="_YNkHUtvOEeW4CoQ1djPn3w" label="%trimmedwindow.label.eclipseSDK" x="163" y="51" width="1024" height="768">
     <persistedState key="coolBarVisible" value="true"/>
     <persistedState key="perspectiveBarVisible" value="true"/>
     <persistedState key="workingSets" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xA;&lt;workingSets/>"/>
@@ -281,7 +281,7 @@
       </children>
       <children xsi:type="menu:ToolBar" xmi:id="_YQjJ4NvOEeW4CoQ1djPn3w" elementId="org.eclipse.ui.workbench.file">
         <tags>Draggable</tags>
-        <children xsi:type="menu:HandledToolItem" xmi:id="_YQp3kNvOEeW4CoQ1djPn3w" elementId="print" iconURI="platform:/plugin/org.eclipse.ui/icons/full/etool16/print_edit.png" tooltip="Print" enabled="false" command="_XrZ1l9vOEeW4CoQ1djPn3w"/>
+        <children xsi:type="menu:HandledToolItem" xmi:id="__yMDwOCSEeW5E6rouzuEqg" elementId="print" iconURI="platform:/plugin/org.eclipse.ui/icons/full/etool16/print_edit.png" tooltip="Print" enabled="false" command="_XrZ1l9vOEeW4CoQ1djPn3w"/>
       </children>
       <children xsi:type="menu:ToolBar" xmi:id="_YQjw8NvOEeW4CoQ1djPn3w" elementId="additions" toBeRendered="false">
         <tags>toolbarSeparator</tags>
@@ -311,7 +311,7 @@
       </children>
       <children xsi:type="menu:ToolBar" xmi:id="_YQkYANvOEeW4CoQ1djPn3w" elementId="org.eclipse.ui.workbench.navigate">
         <tags>Draggable</tags>
-        <children xsi:type="menu:HandledToolItem" xmi:id="_YQs64NvOEeW4CoQ1djPn3w" elementId="org.eclipse.ui.window.pinEditor" visible="false" iconURI="platform:/plugin/org.eclipse.ui/icons/full/etool16/pin_editor.png" tooltip="Pin Editor" type="Check" command="_XrZOetvOEeW4CoQ1djPn3w"/>
+        <children xsi:type="menu:HandledToolItem" xmi:id="__yQ8QOCSEeW5E6rouzuEqg" elementId="org.eclipse.ui.window.pinEditor" visible="false" iconURI="platform:/plugin/org.eclipse.ui/icons/full/etool16/pin_editor.png" tooltip="Pin Editor" type="Check" command="_XrZOetvOEeW4CoQ1djPn3w"/>
       </children>
       <children xsi:type="menu:ToolBar" xmi:id="_YQkYAdvOEeW4CoQ1djPn3w" elementId="group.editor" toBeRendered="false">
         <tags>toolbarSeparator</tags>
@@ -944,7 +944,7 @@
       <tags>platform:cocoa</tags>
       <parameters xmi:id="_Xs3OAdvOEeW4CoQ1djPn3w" elementId="org.eclipse.ui.views.showView.viewId" name="org.eclipse.ui.views.showView.viewId" value="org.eclipse.mylyn.tasks.ui.views.tasks"/>
     </bindings>
-    <bindings xmi:id="_XtBmENvOEeW4CoQ1djPn3w" keySequence="COMMAND+CTRL+F" command="_XtA_A9vOEeW4CoQ1djPn3w"/>
+    <bindings xmi:id="__SP_cOCSEeW5E6rouzuEqg" keySequence="COMMAND+CTRL+F" command="_XtA_A9vOEeW4CoQ1djPn3w"/>
   </bindingTables>
   <bindingTables xmi:id="_XsJcV9vOEeW4CoQ1djPn3w" elementId="org.eclipse.tm.terminal.EditContext" bindingContext="_XrfVANvOEeW4CoQ1djPn3w">
     <bindings xmi:id="_XsKDYNvOEeW4CoQ1djPn3w" keySequence="COMMAND+SHIFT+C" command="_XrZOgdvOEeW4CoQ1djPn3w"/>
@@ -1354,7 +1354,7 @@
     <bindings xmi:id="_XsxudNvOEeW4CoQ1djPn3w" keySequence="CTRL+D" command="_XrbDldvOEeW4CoQ1djPn3w"/>
   </bindingTables>
   <bindingTables xmi:id="_XtCNItvOEeW4CoQ1djPn3w" contributorURI="platform:/fragment/org.eclipse.e4.ui.workbench.renderers.swt.cocoa" bindingContext="_XqrctdvOEeW4CoQ1djPn3w">
-    <bindings xmi:id="_XtCNI9vOEeW4CoQ1djPn3w" keySequence="M1+W" command="_XtCNINvOEeW4CoQ1djPn3w"/>
+    <bindings xmi:id="__SRNkOCSEeW5E6rouzuEqg" keySequence="M1+W" command="_XtCNINvOEeW4CoQ1djPn3w"/>
   </bindingTables>
   <bindingTables xmi:id="_YbM6sdvOEeW4CoQ1djPn3w" bindingContext="_YbM6sNvOEeW4CoQ1djPn3w"/>
   <bindingTables xmi:id="_YbNhwdvOEeW4CoQ1djPn3w" bindingContext="_YbNhwNvOEeW4CoQ1djPn3w"/>

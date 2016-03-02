@@ -7,6 +7,10 @@ public class Node {
 	//Node precedent;
 	Operation op;
 	
+	public Node(){
+	}
+	
+	
 	public Node(Node suivant, Operation op){
 		this.suivant = suivant;
 		this.op = op;

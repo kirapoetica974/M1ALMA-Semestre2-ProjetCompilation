@@ -4,7 +4,9 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.ObjectInputStream.GetField;
 import java.util.HashMap;
+import java.util.Vector;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -59,7 +61,10 @@ public class Arbre {
 	
 	public static void main(String[] args) throws IOException {
 		//imprimArbre(F);
-		scan();
+		//scan();
+		Boolean b = analyse(S);
+		System.out.println(b);
+		
 	}
 	
 	static Node S = genConc(
@@ -126,7 +131,15 @@ public class Arbre {
 			)
 		);
 	
-	static Node[] A = {S, N, E, T, F};
+	
+	static Vector<Node> A = new Vector<Node>();
+	static{
+		A.add(S);
+		A.add(N);
+		A.add(E);
+		A.add(T);
+		A.add(F);
+	}
 	
 	
 	// Fonction qui dessine les arbres 
@@ -181,11 +194,12 @@ public class Arbre {
 	
 	
 	//Fonction qui analyse
-	public boolean analyse(Node p) throws IOException{
+	public static boolean analyse(Node p) throws IOException{
 		
-		Grammaire g0 = new Grammaire();
+		//Grammaire g0 = new Grammaire();
 		
 		boolean res = false;
+		
 		Operation n = p.getOp();
 		
 		switch (n.getNom()) {
@@ -221,7 +235,7 @@ public class Arbre {
 				if(n.getCode() == code){
 					res = true;
 					if(n.getAct() != 0){
-						g0.action(n.getAct());
+						//g0.action(n.getAct());
 					}
 					scan();
 				}
@@ -230,9 +244,9 @@ public class Arbre {
 			
 			// Case :m Non Terminal
 			else if(n.getAtomType().equals(AtomType.NonTerminal)){
-				if(analyse(A[n.getCode()])){
+				if(analyse( A.get(A.indexOf(n.getCode()))) ){
 					if(n.getAct() != 0){
-						g0.action(n.getAct());
+						//g0.action(n.getAct());
 					}
 					res = true;
 				}
@@ -259,7 +273,7 @@ public class Arbre {
 	public static void scan() throws IOException{
 		
 		
-		while(i<line.length()){
+		//while(i<line.length()){
 			lireBlanc();
 			String a = line.charAt(i)+"";
 			switch (a) {
@@ -374,15 +388,103 @@ public class Arbre {
 		}
 		
 		
+	//}
+	
+	// fonction qui permet de lire l'action qui est suivie du #
+	public static void lireAction(){
+		String caractereLu = line.charAt(i)+"";
+		
+		if(caractereLu.equals("#")){
+			i++;
+			Pattern p = Pattern .compile("[a-zA-Z1-9]");
+			String test = line.charAt(i)+"";
+			Matcher m = p.matcher(test);
+			while (m.find()) {
+				if(p.matcher(line.charAt(i+1)+"").find()){
+					caractereLu = caractereLu + line.charAt(i+1);
+				}
+				i++;
+				test = line.charAt(i)+"";
+				m = p.matcher(test);
+			}
+			action = Integer.parseInt(caractereLu);
+		}
+		else{
+			action = 0;
+		}
 	}
+	
 	
 	public static void lireBlanc() throws IOException{
 		while (line.charAt(i)==' ' && i<line.length()) {
-			//System.out.println("Attention il y a un blanc !!");
 			i++;
 		}
 	}
 	
+	
+	public static Vector<Node> pile = new Vector<Node>();
+	public static HashMap<String, String> dicont = new HashMap<String, String>();
+	public static HashMap<String, String> dicot = new HashMap<String, String>();
+	
+	public static void goAction(int action){
+		Node t1 =  new Node();
+		Node t2 =  new Node();
+		
+		switch (action) {
+		case 1:
+			pile.remove(t1);
+			pile.remove(t2);
+			A.add(t1);
+			break;
+
+		case 2:
+			pile.add(genAtom(recherche(dicont), action, caType));
+			break;
+			
+		case 3:
+			pile.remove(t1);
+			pile.remove(t2);
+			pile.add(genUnion(t1, t2));
+			break;
+			
+		case 4:
+			pile.remove(t1);
+			pile.remove(t2);
+			pile.add(genConc(t1, t2));
+			break;
+			
+		case 5:
+			if(caType == AtomType.Terminal){
+				pile.add(genAtom(recherche(dicot), action, AtomType.Terminal));
+			}
+			else{
+				pile.add(genAtom(recherche(dicont), action, AtomType.NonTerminal));
+			}
+			break;
+			
+		case 6:
+			pile.remove(t1);
+			pile.add(genStar(t1));
+			break;
+			
+		case 7:
+			pile.remove(t1);
+			pile.add(genUn(t1));
+			break;
+			
+		default:
+			break;
+		}	
+	}
+	
+	
+	
+	private static int recherche(HashMap<String, String> dicot2) {
+		
+		return 0;
+	}
+
+
 	public static void affiche(){
 		//System.out.println("code = "+ code);
 		//System.out.println("type = "+ type);
