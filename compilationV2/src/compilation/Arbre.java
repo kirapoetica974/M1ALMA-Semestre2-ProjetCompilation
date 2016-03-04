@@ -44,6 +44,11 @@ public class Arbre {
 	// initialisation du hashmap
 	static {
 		codeCaractere = new HashMap<String, Integer>();
+		codeCaractere.put("S", 1);
+		codeCaractere.put("N", 2);
+		codeCaractere.put("E", 3);
+		codeCaractere.put("T", 4);
+		codeCaractere.put("F", 5);
 		codeCaractere.put(";", 6);
 		codeCaractere.put(",", 7);
 		codeCaractere.put("-->", 8);
@@ -77,8 +82,11 @@ public class Arbre {
 		g0Action(2);
 		System.out.println(pile.get(0).getOp().getNom());*/
 		
-		Boolean b = analyse(S);
+		Boolean b = analyse(T);
 		System.out.println(b);
+		
+		//Operation n = S.getOp();
+		//System.out.println( A.get(A.indexOf( n.getCode() ) +1 ));
 	}
 	
 	static Node S = genConc(
@@ -86,10 +94,10 @@ public class Arbre {
 					genConc(
 							genConc(
 									genConc(
-											genAtom(codeCaractere.get("IDNTER"), 0, AtomType.NonTerminal), 
+											genAtom(codeCaractere.get("N"), 0, AtomType.NonTerminal), 
 											genAtom(codeCaractere.get("-->"), 0, AtomType.Terminal)
 									), 
-									genAtom(codeCaractere.get("IDNTER"), 0, AtomType.NonTerminal)
+									genAtom(codeCaractere.get("E"), 0, AtomType.NonTerminal)
 							), 
 							genAtom(codeCaractere.get(","), 1, AtomType.Terminal)
 					)
@@ -100,21 +108,21 @@ public class Arbre {
 	static Node N = genAtom(codeCaractere.get("IDNTER"), 2, AtomType.Terminal);
 	
 	static Node E = genConc(
-			genAtom(codeCaractere.get("IDNTER"), 3, AtomType.NonTerminal), 
+			genAtom(codeCaractere.get("T"), 3, AtomType.NonTerminal), 
 			genStar(
 					genConc(
 							genAtom(codeCaractere.get("+"), 0, AtomType.Terminal), 
-							genAtom(codeCaractere.get("IDNTER"), 0, AtomType.NonTerminal)
+							genAtom(codeCaractere.get("T"), 0, AtomType.NonTerminal)
 					)
 			)
 		);
 	
 	static Node T = genConc(
-			genAtom(codeCaractere.get("IDNTER"), 4, AtomType.NonTerminal),
+			genAtom(codeCaractere.get("F"), 4, AtomType.NonTerminal),
 			genStar(
 					genConc(
 							genAtom(codeCaractere.get("."), 0, AtomType.Terminal), 
-							genAtom(codeCaractere.get("IDNTER"), 1, AtomType.NonTerminal)
+							genAtom(codeCaractere.get("F"), 1, AtomType.NonTerminal)
 					)
 			)
 		);
@@ -134,7 +142,7 @@ public class Arbre {
 					genConc(
 							genConc(
 									genAtom(codeCaractere.get("["), 0, AtomType.Terminal), 
-									genAtom(codeCaractere.get("IDNTER"), 0, AtomType.NonTerminal)
+									genAtom(codeCaractere.get("E"), 0, AtomType.NonTerminal)
 							), 
 							genAtom(codeCaractere.get("]"), 6, AtomType.Terminal)
 					)
@@ -258,7 +266,7 @@ public class Arbre {
 			
 			// Case : Non Terminal
 			else if(n.getAtomType().equals(AtomType.NonTerminal)){
-				if(analyse( A.get(A.indexOf(n.getCode()))) ){
+				if(analyse( A.get(A.indexOf(n.getCode())+1 )) ){
 					if(n.getAct() != 0){
 						g0Action(n.getAct());
 					}
