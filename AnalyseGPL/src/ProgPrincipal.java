@@ -90,6 +90,35 @@ public class ProgPrincipal {
 	
 	
 	public static void interpreter(int x){
+		
+		switch (x) {
+		case 1: // ADD
+			
+			break;
+			
+		case 2: // AFF
+			
+			break;
+			
+		case 3: // AND
+			
+			break;
+			
+		case 4: // DEC
+			
+			break;
+		
+		case 5: // DIFF
+	
+			break;
+			
+		case 6: // DIV
+			
+			break;
+
+		default:
+			break;
+		}
 	}
 	
 }
