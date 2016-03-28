@@ -1,0 +1,13 @@
+Programm Som,
+var I,S,N;
+Debut
+	read(N)
+	S := 0;
+	I := 0;
+	while I<=N do
+		Debut
+			S := S+I;
+			I := I+1;
+		Fin
+	writeln(S);
+Fin.

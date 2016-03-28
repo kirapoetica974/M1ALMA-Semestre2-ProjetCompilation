@@ -44,6 +44,11 @@ public class Arbre {
 	// initialisation du hashmap
 	static {
 		codeCaractere = new HashMap<String, Integer>();
+		codeCaractere.put("S", 1);
+		codeCaractere.put("N", 2);
+		codeCaractere.put("E", 3);
+		codeCaractere.put("T", 4);
+		codeCaractere.put("F", 5);
 		codeCaractere.put(";", 6);
 		codeCaractere.put(",", 7);
 		codeCaractere.put("-->", 8);
@@ -62,9 +67,26 @@ public class Arbre {
 	public static void main(String[] args) throws IOException {
 		//imprimArbre(F);
 		//scan();
-		Boolean b = analyse(S);
+		
+		
+		
+		// test de recherche
+		/*dicont.add("S");
+		chaine = "S";
+		System.out.println(recherche(dicont));
+		System.out.println(dicont);
+		
+		// test de g0Action
+		action = 2;
+		type = AtomType.Terminal;
+		g0Action(2);
+		System.out.println(pile.get(0).getOp().getNom());*/
+		
+		Boolean b = analyse(T);
 		System.out.println(b);
 		
+		//Operation n = S.getOp();
+		//System.out.println( A.get(A.indexOf( n.getCode() ) +1 ));
 	}
 	
 	static Node S = genConc(
@@ -72,10 +94,10 @@ public class Arbre {
 					genConc(
 							genConc(
 									genConc(
-											genAtom(codeCaractere.get("IDNTER"), 0, AtomType.NonTerminal), 
+											genAtom(codeCaractere.get("N"), 0, AtomType.NonTerminal), 
 											genAtom(codeCaractere.get("-->"), 0, AtomType.Terminal)
 									), 
-									genAtom(codeCaractere.get("IDNTER"), 0, AtomType.NonTerminal)
+									genAtom(codeCaractere.get("E"), 0, AtomType.NonTerminal)
 							), 
 							genAtom(codeCaractere.get(","), 1, AtomType.Terminal)
 					)
@@ -86,21 +108,21 @@ public class Arbre {
 	static Node N = genAtom(codeCaractere.get("IDNTER"), 2, AtomType.Terminal);
 	
 	static Node E = genConc(
-			genAtom(codeCaractere.get("IDNTER"), 3, AtomType.NonTerminal), 
+			genAtom(codeCaractere.get("T"), 3, AtomType.NonTerminal), 
 			genStar(
 					genConc(
 							genAtom(codeCaractere.get("+"), 0, AtomType.Terminal), 
-							genAtom(codeCaractere.get("IDNTER"), 0, AtomType.NonTerminal)
+							genAtom(codeCaractere.get("T"), 0, AtomType.NonTerminal)
 					)
 			)
 		);
 	
 	static Node T = genConc(
-			genAtom(codeCaractere.get("IDNTER"), 4, AtomType.NonTerminal),
+			genAtom(codeCaractere.get("F"), 4, AtomType.NonTerminal),
 			genStar(
 					genConc(
 							genAtom(codeCaractere.get("."), 0, AtomType.Terminal), 
-							genAtom(codeCaractere.get("IDNTER"), 1, AtomType.NonTerminal)
+							genAtom(codeCaractere.get("F"), 1, AtomType.NonTerminal)
 					)
 			)
 		);
@@ -120,7 +142,7 @@ public class Arbre {
 					genConc(
 							genConc(
 									genAtom(codeCaractere.get("["), 0, AtomType.Terminal), 
-									genAtom(codeCaractere.get("IDNTER"), 0, AtomType.NonTerminal)
+									genAtom(codeCaractere.get("E"), 0, AtomType.NonTerminal)
 							), 
 							genAtom(codeCaractere.get("]"), 6, AtomType.Terminal)
 					)
@@ -235,18 +257,18 @@ public class Arbre {
 				if(n.getCode() == code){
 					res = true;
 					if(n.getAct() != 0){
-						//g0.action(n.getAct());
+						g0Action(n.getAct());
 					}
 					scan();
 				}
 				else res = false;
 			}
 			
-			// Case :m Non Terminal
+			// Case : Non Terminal
 			else if(n.getAtomType().equals(AtomType.NonTerminal)){
-				if(analyse( A.get(A.indexOf(n.getCode()))) ){
+				if(analyse( A.get(A.indexOf(n.getCode())+1 )) ){
 					if(n.getAct() != 0){
-						//g0.action(n.getAct());
+						g0Action(n.getAct());
 					}
 					res = true;
 				}
@@ -423,39 +445,55 @@ public class Arbre {
 	
 	
 	public static Vector<Node> pile = new Vector<Node>();
-	public static HashMap<String, String> dicont = new HashMap<String, String>();
-	public static HashMap<String, String> dicot = new HashMap<String, String>();
+	public static Vector<String> dicont = new Vector<String>();
+	public static Vector<String> dicot = new Vector<String>();
 	
-	public static void goAction(int action){
-		Node t1 =  new Node();
-		Node t2 =  new Node();
+	public static void g0Action(int act){
+		Node t1 = null;
+		Node t2 = null;
+		
+		if(pile.size() == 0){
+			//t1 =  pile.get(pile.size()-1);
+		}
+		else if (pile.size() == 1){
+			t1 =  pile.get(pile.size()-1);
+		}
+		else{
+			t1 =  pile.get(pile.size()-1);
+			t2 =  pile.get(pile.size()-2);
+		}
+		
+		
+		
+		Node tempT1 = t1;
+		Node tempT2 = t2;
 		
 		switch (action) {
 		case 1:
 			pile.remove(t1);
 			pile.remove(t2);
-			A.add(t1);
+			A.add(tempT1);
 			break;
 
 		case 2:
-			pile.add(genAtom(recherche(dicont), action, caType));
+			pile.add(genAtom(recherche(dicont), action, type));
 			break;
 			
 		case 3:
 			pile.remove(t1);
 			pile.remove(t2);
-			pile.add(genUnion(t1, t2));
+			pile.add(genUnion(tempT1, tempT2));
 			break;
 			
 		case 4:
 			pile.remove(t1);
 			pile.remove(t2);
-			pile.add(genConc(t1, t2));
+			pile.add(genConc(tempT1, tempT2));
 			break;
 			
 		case 5:
-			if(caType == AtomType.Terminal){
-				pile.add(genAtom(recherche(dicot), action, AtomType.Terminal));
+			if(type == AtomType.Terminal){
+				pile.add(genAtom(recherche(dicot), act, AtomType.Terminal));
 			}
 			else{
 				pile.add(genAtom(recherche(dicont), action, AtomType.NonTerminal));
@@ -464,12 +502,12 @@ public class Arbre {
 			
 		case 6:
 			pile.remove(t1);
-			pile.add(genStar(t1));
+			pile.add(genStar(tempT1));
 			break;
 			
 		case 7:
 			pile.remove(t1);
-			pile.add(genUn(t1));
+			pile.add(genUn(tempT1));
 			break;
 			
 		default:
@@ -479,9 +517,25 @@ public class Arbre {
 	
 	
 	
-	private static int recherche(HashMap<String, String> dicot2) {
+	public static int recherche(Vector<String> dic) {
+		boolean trouve = false;
+		int res = 0;
 		
-		return 0;
+		for (int i = 0; i < dic.size(); i++) {
+			if(chaine.equals(dic.get(i))){
+				trouve = true;
+				res = i;
+				break;
+			}
+		}
+		
+		if(!trouve){
+			dic.add(chaine);
+			res = dic.size()-1 ;
+		}
+		
+		return res;
+
 	}
 
 
