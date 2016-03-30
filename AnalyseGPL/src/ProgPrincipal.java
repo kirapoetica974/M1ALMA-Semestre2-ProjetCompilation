@@ -8,7 +8,15 @@ import java.util.Vector;
 
 public class ProgPrincipal {
 	
-	public static HashMap<PCode, Integer> tablePcode; // = new HashMap<PCode, Integer>();
+	public static Vector<Integer> pile_x;
+	
+	public static Vector<E> p_code;
+	
+	public static int slx; // pointeur de pile_x
+	
+	public static int co; // pointeur de p_code
+	
+	public static HashMap<PCode, Integer> tablePcode;
 	
 	static{
 		tablePcode = new HashMap<PCode, Integer>();
