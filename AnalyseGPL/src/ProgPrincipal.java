@@ -3,6 +3,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Scanner;
 import java.util.Vector;
 
 
@@ -10,9 +11,9 @@ public class ProgPrincipal {
 	
 	public static Vector<Integer> pile_x;
 	
-	public static Vector<E> p_code;
+	public static Vector<Integer> p_code;
 	
-	public static int slx; // pointeur de pile_x
+	public static int spx; // pointeur de pile_x
 	
 	public static int co; // pointeur de p_code
 	
@@ -46,17 +47,19 @@ public class ProgPrincipal {
 		tablePcode.put(PCode.RD, 24);
 		tablePcode.put(PCode.RDLN, 25);
 		tablePcode.put(PCode.RSR, 26);
-		tablePcode.put(PCode.STUP, 27);
+		tablePcode.put(PCode.STOP, 27);
 		tablePcode.put(PCode.SUP, 28);
 		tablePcode.put(PCode.SUPE, 29);
 		tablePcode.put(PCode.WRT, 30);
 		tablePcode.put(PCode.WRTLN, 31);
+		//tablePcode.put(PCode.STOP, 32);
 	}
 	
 	
 	
 
 	public static void main(String[] args) {
+		
 		
 	}
 	
@@ -80,6 +83,7 @@ public class ProgPrincipal {
 	
 	static int i = 0;
 	
+	
 	public static void scanGPL() throws IOException{
 		if(line == null){
 			line = br.readLine();
@@ -99,31 +103,250 @@ public class ProgPrincipal {
 	
 	public static void interpreter(int x){
 		
+		int aAjouter;
+		boolean b;
+		
 		switch (x) {
 		case 1: // ADD
-			
+			aAjouter = pile_x.get(spx - 1) +  pile_x.get(spx);
+			pile_x.set(spx-1, aAjouter);
+			spx--;
+			co++;
 			break;
 			
 		case 2: // AFF
-			
+			aAjouter = pile_x.get(spx);
+			pile_x.set(spx-1, aAjouter);
+	   		spx = spx - 2;
+	   		co++;
 			break;
 			
 		case 3: // AND
-			
+			//TODO
 			break;
 			
 		case 4: // DEC
-			
+			aAjouter = pile_x.get(spx) - 1 ;
+			pile_x.set(spx, aAjouter);
+	   		co++;
 			break;
 		
 		case 5: // DIFF
-	
+			if(pile_x.get(spx-1) != pile_x.get(spx)){
+				pile_x.set(spx-1, 1);
+			}
+			
+			else{
+				pile_x.set(spx-1, 0);
+			}
+			
+			spx--;
+	   	 	co++;
 			break;
+			
 			
 		case 6: // DIV
+			aAjouter = pile_x.get(spx-1) / pile_x.get(spx);
+			pile_x.set(spx-1, aAjouter);
+	   	 	spx--;
+	   	 	co++;
+			break;
 			
+			
+		case 7: // EG
+			if(pile_x.get(spx-1) == pile_x.get(spx)){
+				pile_x.set(spx-1, 1);
+			}
+			
+			else{
+				pile_x.set(spx-1, 0);
+			}
+			spx--;
+	   	 	co++;
+			break;
+			
+		case 8: //INC
+			aAjouter = pile_x.get(spx) + 1 ;
+			pile_x.set(spx, aAjouter);
+	   		co++;
+			break;
+			
+		case 9: //INDA
+			//TODO
+			break;
+			
+		case 10: //INDV
+			//TODO
+			break;
+	
+		case 11: //INF
+			if(pile_x.get(spx-1) < pile_x.get(spx)){
+				pile_x.set(spx-1, 1);
+			}
+			
+			else{
+				pile_x.set(spx-1, 0);
+			}
+			
+			spx--;
+	   	 	co++;
+			break;
+	
+		case 12: //INFE
+			if(pile_x.get(spx-1) <= pile_x.get(spx)){
+				pile_x.set(spx-1, 1);
+			}
+			
+			else{
+				pile_x.set(spx-1, 0);
+			}
+			
+			spx--;
+	   	 	co++;
+			break;
+	
+		case 13: //JIF
+			if(pile_x.get(spx) == 0){
+				co = (int) p_code.get(co+1);
+			}
+			else{
+				co = co + 2;
+			}
+			break;
+	
+		case 14: //JMP
+			co = (int) p_code.get(co+1);
+			break;
+	
+		case 15: //JSR
+			//TODO
+			break;
+	
+		case 16: //LDA
+			spx++;
+			aAjouter = p_code.get(co+1);
+			pile_x.set(spx, aAjouter);
+	   		co = co + 2;
+			break;
+	
+		case 17: //LDC
+			spx++;
+			aAjouter = p_code.get(co+1);
+			pile_x.set(spx, aAjouter);
+	   		co = co + 2;
+			break;
+	
+		case 18: //LDV
+			spx++;
+			aAjouter = pile_x.get(p_code.get(co+1));
+			pile_x.set(spx, aAjouter);
+	   		co = co + 2;
+			break;
+			
+		case 19: //MOINS
+			aAjouter = pile_x.get(spx-1) - pile_x.get(spx);
+			pile_x.set(spx-1, aAjouter);
+	   	 	spx--;
+	   	 	co++;
+			break;
+			
+		case 20: //MULT
+			aAjouter = pile_x.get(spx-1) * pile_x.get(spx);
+			pile_x.set(spx-1, aAjouter);
+	   	 	spx--;
+	   	 	co++;
+			break;
+			
+		case 21: //NEQ
+			if(pile_x.get(spx-1) != pile_x.get(spx)){
+				pile_x.set(spx-1, 1);
+			}
+			
+			else{
+				pile_x.set(spx-1, 0);
+			}
+			spx--;
+	   	 	co++;
+			break;
+	
+		case 22: //NOT
+			aAjouter = ! pile_x.get(spx);
+			pile_x.set(spx, aAjouter);
+	   		co++;
+			break;
+	
+		case 23: //OR
+			//TODO
+			break;
+	
+		case 24: //RD
+			spx++;
+			Scanner sc = new Scanner(System.in);
+			String str = sc.nextLine();
+			aAjouter = Integer.parseInt(str);
+			pile_x.set(spx, aAjouter);
+			break;
+	
+		case 25: //RDLN
+			spx++;
+			System.out.println();
+			Scanner sc2 = new Scanner(System.in);
+			String str2 = sc2.nextLine();
+			aAjouter = Integer.parseInt(str2);
+			pile_x.set(spx, aAjouter);
 			break;
 
+			
+		case 26: //RSR
+			// TODO
+			break;
+			
+		case 27: //ST0P
+			// jamais interprété
+			break;
+			
+		case 28: //SUP
+			if(pile_x.get(spx-1) > pile_x.get(spx)){
+				pile_x.set(spx-1, 1);
+			}
+			
+			else{
+				pile_x.set(spx-1, 0);
+			}
+			spx--;
+	   	 	co++;
+			break;
+			break;
+	
+			
+		case 29: //SUPE
+			if(pile_x.get(spx-1) >= pile_x.get(spx)){
+				pile_x.set(spx-1, 1);
+			}
+			
+			else{
+				pile_x.set(spx-1, 0);
+			}
+			
+			spx--;
+	   	 	co++;
+			break;
+			break;
+	
+			
+		case 30: //WRT
+			System.out.print(pile_x.get(spx));
+			spx++;
+			co++;
+			break;
+	
+		case 31: //WRTLN
+			System.out.println(pile_x.get(spx));
+			spx++;
+			co++;
+			break;
+			break;
+	
 		default:
 			break;
 		}

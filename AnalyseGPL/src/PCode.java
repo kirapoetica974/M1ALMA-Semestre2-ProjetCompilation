@@ -28,7 +28,7 @@ public enum PCode {
 	OR,
 	NOT,
 	AFF,
-	STUP,
+	STOP,
 	INDA,
 	INDV,
 }
