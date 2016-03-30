@@ -9,9 +9,9 @@ import java.util.Vector;
 
 public class ProgPrincipal {
 	
-	public static Vector<Integer> pile_x;
+	public static Vector<Integer> pile_x = new Vector<Integer>();
 	
-	public static Vector<Integer> p_code;
+	public static Vector<Integer> p_code = new Vector<Integer>();
 	
 	public static int spx; // pointeur de pile_x
 	
@@ -60,6 +60,69 @@ public class ProgPrincipal {
 
 	public static void main(String[] args) {
 		
+		spx = 1;
+		
+		pile_x.add(10); // Element i
+		pile_x.add(21); // Element j
+		
+		//-------------------------------------------
+		// test des opérations  ADD, MOINS, MULT, DIV
+		// ------------------------------------------
+		
+		/*
+		 
+		// on charge i
+		p_code.add(18);
+		p_code.add(0);
+		
+		// on charge j
+		p_code.add(18);
+		p_code.add(1);
+		
+		// on fait i/j  (a commenter si tu veux tester les autres opérations)
+		p_code.add(6);
+		
+		// on fait i+j
+		//p_code.add(1);
+		
+		// on fait i-j
+		// p_code.add(19)
+		
+		//on fait i*j
+		// p_code.add(20)
+		
+		// on affiche i/j
+		p_code.add(30);
+		
+		//stop
+		p_code.add(27);
+		
+		*/
+		
+		
+		//-------------------------------------------
+		// test des opérations  RD, RDLN
+		// ------------------------------------------
+		
+		//on demande a l'utilisateur RD
+		//p_code.add(24);
+		
+		// on demande RDLN
+		p_code.add(25);
+		
+		// on affiche 
+		p_code.add(30);
+		
+		p_code.add(27);
+		
+		
+		
+		System.out.println("p_code = " + p_code);
+		while(p_code.get(co) != 27){
+			System.out.println("co = " + co);
+			System.out.println("p_code[co] = "+p_code.get(co));
+			interpreter(p_code.get(co));
+		}
 		
 	}
 	
@@ -89,7 +152,7 @@ public class ProgPrincipal {
 			line = br.readLine();
 		}
 		
-		String a = line.charAt(i)+"";
+		String a = line.charAt(i) + "";
 		switch (a) {
 		case ",":
 			
@@ -104,7 +167,6 @@ public class ProgPrincipal {
 	public static void interpreter(int x){
 		
 		int aAjouter;
-		boolean b;
 		
 		switch (x) {
 		case 1: // ADD
@@ -187,7 +249,6 @@ public class ProgPrincipal {
 			else{
 				pile_x.set(spx-1, 0);
 			}
-			
 			spx--;
 	   	 	co++;
 			break;
@@ -225,21 +286,23 @@ public class ProgPrincipal {
 		case 16: //LDA
 			spx++;
 			aAjouter = p_code.get(co+1);
-			pile_x.set(spx, aAjouter);
+			pile_x.add(aAjouter);
 	   		co = co + 2;
 			break;
 	
 		case 17: //LDC
 			spx++;
 			aAjouter = p_code.get(co+1);
-			pile_x.set(spx, aAjouter);
+			pile_x.add(aAjouter);
 	   		co = co + 2;
 			break;
 	
 		case 18: //LDV
 			spx++;
 			aAjouter = pile_x.get(p_code.get(co+1));
-			pile_x.set(spx, aAjouter);
+			System.out.println("aAjouter = " + aAjouter);
+			System.out.println("spx = " + spx);
+			pile_x.add(aAjouter);
 	   		co = co + 2;
 			break;
 			
@@ -270,9 +333,7 @@ public class ProgPrincipal {
 			break;
 	
 		case 22: //NOT
-			aAjouter = ! pile_x.get(spx);
-			pile_x.set(spx, aAjouter);
-	   		co++;
+			//TODO
 			break;
 	
 		case 23: //OR
@@ -281,19 +342,23 @@ public class ProgPrincipal {
 	
 		case 24: //RD
 			spx++;
+			System.out.print("Entrer un nombre");
 			Scanner sc = new Scanner(System.in);
 			String str = sc.nextLine();
 			aAjouter = Integer.parseInt(str);
-			pile_x.set(spx, aAjouter);
+			pile_x.add(aAjouter);
+			co++;
 			break;
 	
+			
 		case 25: //RDLN
 			spx++;
 			System.out.println();
 			Scanner sc2 = new Scanner(System.in);
 			String str2 = sc2.nextLine();
 			aAjouter = Integer.parseInt(str2);
-			pile_x.set(spx, aAjouter);
+			pile_x.add(aAjouter);
+			co++;
 			break;
 
 			
@@ -305,6 +370,7 @@ public class ProgPrincipal {
 			// jamais interprété
 			break;
 			
+			
 		case 28: //SUP
 			if(pile_x.get(spx-1) > pile_x.get(spx)){
 				pile_x.set(spx-1, 1);
@@ -315,7 +381,6 @@ public class ProgPrincipal {
 			}
 			spx--;
 	   	 	co++;
-			break;
 			break;
 	
 			
@@ -331,7 +396,6 @@ public class ProgPrincipal {
 			spx--;
 	   	 	co++;
 			break;
-			break;
 	
 			
 		case 30: //WRT
@@ -344,7 +408,6 @@ public class ProgPrincipal {
 			System.out.println(pile_x.get(spx));
 			spx++;
 			co++;
-			break;
 			break;
 	
 		default:

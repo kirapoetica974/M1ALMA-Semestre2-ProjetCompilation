@@ -46,7 +46,7 @@ public class Un extends AbstractOperation{
 	@Override
 	public int getCode() {
 		// TODO Auto-generated method stub
-		return 0;
+		return -1;
 	}
 
 	@Override

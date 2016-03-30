@@ -39,33 +39,33 @@ public class Arbre {
 		e.printStackTrace();
 	}}
 	
-	public static HashMap<String, Integer> codeCaractere;
+	public static HashMap<Integer, String> codeCaractere;
 	
 	// initialisation du hashmap
 	static {
-		codeCaractere = new HashMap<String, Integer>();
-		codeCaractere.put("S", 0);
-		codeCaractere.put("N", 1);
-		codeCaractere.put("E", 2);
-		codeCaractere.put("T", 3);
-		codeCaractere.put("F", 4);
-		codeCaractere.put(";", 6);
-		codeCaractere.put(",", 7);
-		codeCaractere.put("-->", 8);
-		codeCaractere.put("+", 9);
-		codeCaractere.put(".", 10);
-		codeCaractere.put("(", 11);
-		codeCaractere.put(")", 12);
-		codeCaractere.put("[", 13);
-		codeCaractere.put("]", 14);
-		codeCaractere.put("(/", 15);
-		codeCaractere.put("/)", 16);
-		codeCaractere.put("IDNTER", 17);
-		codeCaractere.put("ELTER", 18);
-	}
+		codeCaractere = new HashMap<Integer, String>();
+		codeCaractere.put(0, "S");
+		codeCaractere.put(1, "N");
+		codeCaractere.put(2, "E");
+		codeCaractere.put(3, "T");
+		codeCaractere.put(4, "F");
+		codeCaractere.put(6, ";");
+		codeCaractere.put(7,",");
+		codeCaractere.put(8,"-->");
+		codeCaractere.put(9,"+");
+		codeCaractere.put(10,".");
+		codeCaractere.put(11,"(");
+		codeCaractere.put(12,")");
+		codeCaractere.put(13,"[");
+		codeCaractere.put(14,"]");
+		codeCaractere.put(15,"(/");
+		codeCaractere.put(16,"/)");
+		codeCaractere.put(17,"IDNTER");
+		codeCaractere.put(18,"ELTER");
+}
 	
 	public static void main(String[] args) throws IOException {
-		//imprimArbre(F);
+		//imprimArbre(E);
 		scan();
 		
 		
@@ -85,6 +85,8 @@ public class Arbre {
 		Boolean b = analyse(S);
 		System.out.println(b);
 		
+		//System.out.println(codeCaractere.get(E.getOp().getCode()));
+		
 		//Operation n = S.getOp();
 		//System.out.println( A.get(A.indexOf( n.getCode() ) +1 ));
 	}
@@ -94,35 +96,35 @@ public class Arbre {
 					genConc(
 							genConc(
 									genConc(
-											genAtom(codeCaractere.get("N"), 0, AtomType.NonTerminal), 
-											genAtom(codeCaractere.get("-->"), 0, AtomType.Terminal)
+											genAtom(1 , 0, AtomType.NonTerminal), 
+											genAtom(8 , 0, AtomType.Terminal)
 									), 
-									genAtom(codeCaractere.get("E"), 0, AtomType.NonTerminal)
+									genAtom(2 , 0, AtomType.NonTerminal)
 							), 
-							genAtom(codeCaractere.get(","), 1, AtomType.Terminal)
+							genAtom(7 , 1, AtomType.Terminal)
 					)
 			), 
-			genAtom(codeCaractere.get(";"), 0, AtomType.Terminal)
+			genAtom(6 , 0, AtomType.Terminal)
 		);
 	
-	static Node N = genAtom(codeCaractere.get("IDNTER"), 2, AtomType.Terminal);
+	static Node N = genAtom(17 , 2, AtomType.Terminal);
 	
 	static Node E = genConc(
-			genAtom(codeCaractere.get("T"), 3, AtomType.NonTerminal), 
+			genAtom(3 , 3, AtomType.NonTerminal), 
 			genStar(
 					genConc(
-							genAtom(codeCaractere.get("+"), 0, AtomType.Terminal), 
-							genAtom(codeCaractere.get("T"), 0, AtomType.NonTerminal)
+							genAtom(9 , 0, AtomType.Terminal), 
+							genAtom(3 , 0, AtomType.NonTerminal)
 					)
 			)
 		);
 	
 	static Node T = genConc(
-			genAtom(codeCaractere.get("F"), 4, AtomType.NonTerminal),
+			genAtom(4 , 4, AtomType.NonTerminal),
 			genStar(
 					genConc(
-							genAtom(codeCaractere.get("."), 0, AtomType.Terminal), 
-							genAtom(codeCaractere.get("F"), 1, AtomType.NonTerminal)
+							genAtom(10 , 0, AtomType.Terminal), 
+							genAtom(4 , 1, AtomType.NonTerminal)
 					)
 			)
 		);
@@ -131,36 +133,44 @@ public class Arbre {
 			genUnion(
 					genUnion(
 							genUnion(
-									genAtom(codeCaractere.get("IDNTER"), 5, AtomType.Terminal), 
-									genAtom(codeCaractere.get("ELTER"), 5, AtomType.Terminal)
+									genAtom(17 , 5, AtomType.Terminal), 
+									genAtom(18 , 5, AtomType.Terminal)
 							), 
 							genConc(
-									genAtom(codeCaractere.get("("), 0, AtomType.Terminal), 
-									genAtom(codeCaractere.get(")"), 0, AtomType.Terminal)
+									genConc(
+											genAtom(11, 0, AtomType.Terminal), 
+											genAtom(2, 0, AtomType.Terminal)
+									),
+									genAtom(12, 0, AtomType.Terminal)
 							)
 					), 
 					genConc(
 							genConc(
-									genAtom(codeCaractere.get("["), 0, AtomType.Terminal), 
-									genAtom(codeCaractere.get("E"), 0, AtomType.NonTerminal)
+									genAtom(13, 0, AtomType.Terminal), 
+									genAtom(2, 0, AtomType.NonTerminal)
 							), 
-							genAtom(codeCaractere.get("]"), 6, AtomType.Terminal)
+							genAtom(14, 6, AtomType.Terminal)
 					)
 			), 
 			genConc(
-					genAtom(codeCaractere.get("(/"), 0, AtomType.Terminal),
-					genAtom(codeCaractere.get("/)"), 7, AtomType.Terminal)
+					genConc(
+							genAtom(15, 0, AtomType.Terminal),
+							genAtom(2, 7, AtomType.Terminal)
+					),
+					genAtom(16, 0 , AtomType.Terminal)
 			)
 		);
 	
 	
-	static Vector<Node> A = new Vector<Node>();
+
+	
+	static HashMap<String, Node> A = new HashMap<String, Node>();
 	static{
-		A.add(S);
-		A.add(N);
-		A.add(E);
-		A.add(T);
-		A.add(F);
+		A.put("S", S);
+		A.put("N", N);
+		A.put("E", E);
+		A.put("T", T);
+		A.put("F", F);
 	}
 	
 	
@@ -215,108 +225,63 @@ public class Arbre {
 	}
 	
 	//Fonction qui analyse
-	public static boolean analyse(Node p) throws IOException{
-		
-		//Grammaire g0 = new Grammaire();}
-		
-		boolean res = false;
-		
-		// n correspond à l'opération dans le noeud entré en paramètre
-		Operation n = p.getOp();
-		
-		System.out.println("================== " + n.getNom() + "================");
-		
-		switch (n.getNom()) {
-		case "conc":
-			//System.out.println("C'est une concaténation");
-			if(analyse(p.getOp().getLeft())){
-				res = analyse(n.getRight());
-			}
-			else{
-				res = false;
-			}
-			break;
-			
-		case "union" :
-			//System.out.println("C'est une union");
-			if(analyse(n.getLeft())){
-				//System.out.println("Partie gauche OK");
-				res = true;
-			}
-			else{
-				//System.out.println("Partie gauche FAUX");
-				res = analyse(n.getRight());
-			}
-			break;
-			
-		case "star":
-			System.out.println("C'est une star");
-			res = true;
-			while (analyse(n.getNoeud())) {}
-			break;
-		case "un":
-			//System.out.println("C'est une un");
-			res = true;
-			if(analyse(n.getNoeud())){}
-			break;
-		case "atom":
-			System.out.println("C'est une atom");
-			System.out.println("code = "+code);
-			System.out.println("type = "+type);
-			System.out.println("chaine = "+chaine);
-			
-			System.out.println(n.getCode());
-			// Case : Terminal
-			if(n.getAtomType().equals(AtomType.Terminal)){
-				if(n.getCode() == code){
-					res = true;
-					
-					if(n.getAct() != 0){
-					}
-					System.out.println("Je fais un scan 1 !!!!!");
-					scan();
-				}
-				else {
-					res = false;
-				}
-				System.out.println(n.getAtomType());
-			}
-			
-			// Case : Non Terminal
-			else {
+	public static boolean analyse(Node p) throws IOException {
+		  Operation n = p.getOp();
+		  
+		  System.out.println("================== " + n.getNom() + "================");
+		  
+		  System.out.println("chaine = " + chaine);
+		  
+		  
+		  if(n.getNom().equals("conc")){
+			  System.out.println(" ----------> noeud gauche =  "+n.getLeft().getOp().getNom());
+		    if (analyse(n.getLeft())) {
+		    	System.out.println("----------> noeud droit =  "+n.getRight().getOp().getNom());
+		      return analyse(n.getRight());
+		    }
+		  }
+		  
+		  if(n.getNom().equals("union")){
+		    if (analyse(n.getLeft())) {
+		      return true;
+		    } else {
+		      return analyse(n.getRight());
+		    }
+		  }
+
+		  if(n.getNom().equals("star")){
+		    while (analyse(n.getNoeud()));
+			return true;
+		  }
+
+		  if(n.getNom().equals("un")){
+				analyse(n.getLeft());
+			return true;
+		  }
+
+		  if(n.getNom().equals("atom")){
+			 
+		    if(n.getAtomType().equals(AtomType.Terminal)) {
+				System.out.println("2lément dans l'arbre = "+codeCaractere.get(n.getCode()));
 				
-				if(n.getAtomType().equals(AtomType.NonTerminal)){
-					
-					
-					System.out.println("cdhshfjhfjkf");
-					System.out.println("Non terminal ");
-					System.out.print("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\n");
-					if(analyse(A.get(n.getCode() ) ) ){
-						System.out.println("Analyse A.get.55555555555555555555555555555555..");
-						if(n.getAct() != 0){
-							//g0Action(n.getAct());
-							System.out.println("gAct");
-						}
-						System.out.println("res = true");
-						res = true;
-					}else {
-						System.out.println("else res = false");
-						res = false;
-					}
-					System.out.println("scan");
-					scan();
-				}
-
-			}
-			System.out.println("break");
-			break;
-
-		default:
-			break;
+				System.out.println("code element scanné = "+codeCaractere.get(code));
+		      if(n.getCode() == code){
+				scan();
+		        return true;
+		      }
+		    }else{
+		    	System.out.println(n.getCode());
+		    	System.out.println(codeCaractere.get(n.getCode()) + "------------------------ ON SAUTE !!!");
+		      if (analyse(A.get(codeCaractere.get(n.getCode()))))
+		        return true;
+		      }
+		    }
+		  
+		  return false;
 		}
-		
-		return res;
-	}
+		    
+	
+	
 	
 	
 	public static int i=0;
@@ -326,126 +291,180 @@ public class Arbre {
 	public static AtomType type;
 	public static String chaine;
 	
+	
+	public static void scanLigne() throws IOException{
+		if(i<line.length()){
+			//while(i<line.length()){
+				lireBlanc();
+				String a = line.charAt(i)+"";
+				switch (a) {
+				case "-":
+					a = a+line.charAt(i+1)+line.charAt(i+2);
+					code = 8;
+					type = AtomType.Terminal;
+					chaine = a;
+					i=i+3;
+					break;
+					
+				case "(" :
+					if ((line.charAt(i+1))=='/') {
+						a = a+line.charAt(i+1);
+						code = 15;
+						type = AtomType.Terminal;
+						chaine = a;
+						i=i+2;
+						//System.out.println("case ( if i="+i);
+						//affiche();
+					}
+					else{
+						code = 11;
+						type = AtomType.Terminal;
+						chaine = a;
+						i=i+1;
+						//System.out.println("case ( else i="+i);
+						//affiche();
+					}
+					break;
+					
+				case "/":
+					if ((line.charAt(i+1))==')') {
+						a = a+line.charAt(i+1);
+						code = 16;
+						type = AtomType.Terminal;
+						chaine = a;
+						i=i+2;
+						//System.out.println("case / if i="+i);
+						//affiche();
+					}
+					else{
+						//code = codeCaractere.get(a);
+						type = AtomType.Terminal;
+						chaine = a;
+						i=i+1;
+						//System.out.println("case / else i="+i);
+						//affiche();
+					}
+					break;
+					
+				case "'":
+					a="";
+					while (!((line.charAt(i+1)+"").equals("'"))) {
+						
+						// S'il arrive sur une guillemet, il passe au caractère suivant puis il enlève les blancs (s'il y en a)
+						i++;
+						lireBlanc();
+						
+						// Comme on lit les blancs, on peut se retrouver malencontreusement sur une guillemet
+						// Dans ce cas il faut sortir du while
+						if((line.charAt(i)+"").equals("'")){
+							break;
+						}
+						// Dans le cas ou ce n'est pas une guillemet, alors on ajoute la caractère courant à "a"
+						else{
+							a=a+line.charAt(i);
+						}
+					
+						
+					}
+					
+					code = 18;
+					type = AtomType.Terminal;
+					chaine = a;
+					//System.out.println("chaine scan = " + chaine + "________________*********************");
+					lireBlanc();
+					i=i+2;
+					//affiche();
+					break;
+					
+				case ".":
+					code = 10;
+					type = AtomType.Terminal;
+					chaine = a;
+					i++;
+					break;
+					
+				case ",":
+					code = 7;
+					type = AtomType.Terminal;
+					chaine = a;
+					i++;
+					break;
+					
+				case ";":
+					code = 6;
+					type = AtomType.Terminal;
+					chaine = a;
+					i++;
+					break;
+					
+				case "+":
+					code = 9;
+					type = AtomType.Terminal;
+					chaine = a;
+					i++;
+					break;
+					
+					
+				case ")":
+					code = 12;
+					type = AtomType.Terminal;
+					chaine = a;
+					i++;
+					break;
+					
+				case "[":
+					code = 13;
+					type = AtomType.Terminal;
+					chaine = a;
+					i++;
+					break;
+					
+				case "]":
+					code = 14;
+					type = AtomType.Terminal;
+					//System.out.println("dans le scan, chaine = " + chaine);
+					chaine = a;
+					i++;
+					break;
+
+				default:
+						Pattern p = Pattern .compile("[a-zA-Z1-9]");
+						String test = line.charAt(i)+"";
+						Matcher m = p.matcher(test);
+						while (m.find()) {
+							if(p.matcher(line.charAt(i+1)+"").find()){
+								a=a+line.charAt(i+1);
+							}
+							i++;
+							test = line.charAt(i)+"";
+							m = p.matcher(test);
+						}
+						chaine = a;
+						//System.out.println("dans le scan, chaine = " + chaine + "------------------------------------------");
+						code = 17;
+						type = AtomType.NonTerminal;
+					break;
+				}
+			}
+	}
+	
 	public static void scan() throws IOException{
 		
-		
-		//while(i<line.length()){
-			lireBlanc();
-			String a = line.charAt(i)+"";
-			switch (a) {
-			case "-":
-				a = a+line.charAt(i+1)+line.charAt(i+2);
-				code = codeCaractere.get(a);
-				type = AtomType.Terminal;
-				chaine = a;
-				System.out.println(a);
-				i=i+3;
-				//System.out.println("case - i="+i+a.toUpperCase());
-				//affiche();
-				break;
-				
-			case "(" :
-				if ((line.charAt(i+1))=='/') {
-					a = a+line.charAt(i+1);
-					code = codeCaractere.get(a);
-					type = AtomType.Terminal;
-					chaine = a;
-					i=i+2;
-					//System.out.println("case ( if i="+i);
-					//affiche();
-				}
-				else{
-					code = codeCaractere.get(a);
-					type = AtomType.Terminal;
-					chaine = a;
-					i=i+1;
-					//System.out.println("case ( else i="+i);
-					//affiche();
-				}
-				break;
-				
-			case "/":
-				if ((line.charAt(i+1))==')') {
-					a = a+line.charAt(i+1);
-					code = codeCaractere.get(a);
-					type = AtomType.Terminal;
-					chaine = a;
-					i=i+2;
-					//System.out.println("case / if i="+i);
-					//affiche();
-				}
-				else{
-					code = codeCaractere.get(a);
-					type = AtomType.Terminal;
-					chaine = a;
-					i=i+1;
-					//System.out.println("case / else i="+i);
-					//affiche();
-				}
-				break;
-				
-			case "'":
-				a="";
-				while (!((line.charAt(i+1)+"").equals("'"))) {
-					
-					// S'il arrive sur une guillemet, il passe au caractère suivant puis il enlève les blancs (s'il y en a)
-					i++;
-					lireBlanc();
-					
-					// Comme on lit les blancs, on peut se retrouver malencontreusement sur une guillmet
-					// Dans ce cas il faut sortir du while
-					if((line.charAt(i)+"").equals("'")){
-						break;
-					}
-					// Dans le cas ou ce n'est pas une guillemet, alors on ajoute la caractère courant à "a"
-					else{
-						a=a+line.charAt(i);
-					}
-				
-					
-				}
-				
-				code = codeCaractere.get("ELTER");
-				type = AtomType.Terminal;
-				chaine = a;
-				lireBlanc();
-				i=i+1;
-				//affiche();
-				break;
-
-			default:
-				if(line.charAt(i)=='.' || line.charAt(i)==';' || line.charAt(i)==',' || line.charAt(i)=='+' || line.charAt(i)==')' || line.charAt(i)=='[' || line.charAt(i)==']'){
-					code = codeCaractere.get("ELTER");
-					type = AtomType.Terminal;
-					chaine = a;
-					i++;
-					//System.out.println("case default if i="+i);
-					//affiche();
-				}
-				else{
-					Pattern p = Pattern .compile("[a-zA-Z1-9]");
-					String test = line.charAt(i)+"";
-					Matcher m = p.matcher(test);
-					while (m.find()) {
-						if(p.matcher(line.charAt(i+1)+"").find()){
-							a=a+line.charAt(i+1);
-						}
-						i++;
-						test = line.charAt(i)+"";
-						m = p.matcher(test);
-					}
-					chaine = a;
-					code = codeCaractere.get("IDNTER");
-					type = AtomType.NonTerminal;
-					//System.out.println("case default else i="+i);
-					//affiche();
-				}
-				break;
+		if(i>line.length()){
+			if(br.readLine() != null){
+				i=0;
+				line = br.readLine();
+				scanLigne();
 			}
+		}
+		else{
+			scanLigne();
 		}
 		
 		
-	//}
+		
+		
+	}
 	
 	// fonction qui permet de lire l'action qui est suivie du #
 	public static void lireAction(){
@@ -507,7 +526,7 @@ public class Arbre {
 		case 1:
 			pile.remove(t1);
 			pile.remove(t2);
-			A.add(tempT1);
+			A.put(""+tempT1,tempT1);
 			break;
 
 		case 2:
@@ -577,7 +596,7 @@ public class Arbre {
 	public static void affiche(){
 		//System.out.println("code = "+ code);
 		//System.out.println("type = "+ type);
-		System.out.print(chaine);
+		//System.out.print(chaine);
 	}
 	
 	public static Node genConc(Node p1, Node p2){
